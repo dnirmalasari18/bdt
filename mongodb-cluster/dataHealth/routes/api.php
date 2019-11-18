@@ -22,4 +22,5 @@ Route::post('/data/create', 'DataHealthController@create');
 Route::post('/data/update', 'DataHealthController@update');
 Route::post('/data/delete', 'DataHealthController@delete');
 
-Route::get('data/max','DataHealthController@max');
+Route::get('/data/agg/min','DataHealthController@min');
+Route::get('/data/{grade}/count', 'DataHealthController@countGrade');

@@ -16,11 +16,13 @@ class DataHealthController extends Controller
     public function create(Request $request){        
         $this->validate($request, [
             'facility_name' => 'required',
+            'score'=>'required',
             'grade' => 'required',
         ]);
         $data = new DataHealth();
         $data->facility_name = $request->facility_name;
         $data->grade = $request->grade;
+        $data->score = $request->score;
         $data->save();
         return response()->json(['message' => 'success', 'data' => $data]);
     }
@@ -49,12 +51,15 @@ class DataHealthController extends Controller
         }
         return response()->json(['message' => 'success']);
     }
-    public function max(){
-        //$dataHealth = DataHealth::where('score', $score);
-        //if ($dataHealth == 0) return response()->json(['message' => 'Nothing found.']);
-        //return response()->json(['dataHealth' => $dataHealth]);
-        //$maxScore= DataHealth->max('score');
-        $dataHealth = DataHealth::max('score');
-        return response()->json(['dataHealth' => $dataHealth]);
+    public function min(){
+        $min = DataHealth::where('score', DataHealth::min('score'))->get();
+        return response()->json(['min' => $min]);
+    }
+
+    public function countGrade($grade){
+        $result = DataHealth::where('grade', $grade)->count();
+        if ($result == 0) return response()->json(['message' => 'No record found']);
+        return response()->json(['result' => $result]);
+
     }
 }

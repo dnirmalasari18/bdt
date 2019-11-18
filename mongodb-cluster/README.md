@@ -448,88 +448,89 @@ Terdapat 6 server, yaitu:
 
 ## Konfigurasi MongoDB Cluster
 1. Konfigurasi Replica Set
-Masuk ke dalam salah satu server config
-```
-    vagrant ssh mongo_config_1
-```
+    - Masuk ke dalam salah satu server config
+        ```
+        vagrant ssh mongo_config_1
+        ```
 
-Masuk ke dalam mongo
-```
-mongo mongo-config-1:27019
-```
+    - Masuk ke dalam mongo
+        ```
+        mongo mongo-config-1:27019
+        ```
 
-Inisiasi replica set
-```
-    rs.initiate( { _id: "configReplSet", configsvr: true, members: [ { _id: 0, host: "mongo-config-1:27019" }, { _id: 1, host: "mongo-config-2:27019" }] } )
-```
+    - Inisiasi replica set
+        ```
+        rs.initiate( { _id: "configReplSet", configsvr: true, members: [ { _id: 0, host: "mongo-config-1:27019" }, { _id: 1, host: "mongo-config-2:27019" }] } )
+        ```
 
-Cek hasil replika set
-```
-    rs.status()
-```
+    - Cek hasil replika set
+        ```
+        rs.status()
+        ```
 
 2. Membuat admin
-Masuk ke dalam salah satu server config
-```
-    vagrant ssh mongo_config_1
-```
+    - Masuk ke dalam salah satu server config
+        ```
+        vagrant ssh mongo_config_1
+        ```
 
-Masuk ke dalam mongo
-```
-    mongo mongo-config-1:27019
-```
+    - Masuk ke dalam mongo
+        ```
+        mongo mongo-config-1:27019
+        ```
 
-Masuk dalam database admin
-```
-    use admin
-```
+    - Masuk dalam database admin
+        ```
+        use admin
+        ```
 
-- Membuat user
-    ```
-    db.createUser({user: "mongo-admin", pwd: "password", roles:[{role: "root", db: "admin"}]})
-    ```
+    - Membuat user
+        ```
+        db.createUser({user: "mongo-admin", pwd: "password", roles:[{role: "root", db: "admin"}]})
+        ```
+
 3. Sharding
-- Masuk ke dalam salah satu server shard
-    ```
-    vagrant ssh mongo_shard_1
-    ```
+    - Masuk ke dalam salah satu server shard
+        ```
+        vagrant ssh mongo_shard_1
+        ```
 
-- Connect ke MongoDB Query Router
-    ```
-    mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
-    ```
+    - Connect ke MongoDB Query Router
+        ```
+        mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
+        ```
 
-- Aktifkan dua server shard lainnya
-    ```
-    vagrant ssh mongo_shard_2
-    vagrant ssh mongo_shard_3
-    ```
+    - Aktifkan dua server shard lainnya
+        ```
+        vagrant ssh mongo_shard_2
+        vagrant ssh mongo_shard_3
+        ```
 
-- Dari shell mongo yang sudah tersambung dengan MongoDB Query Router ketikkan
-    ```
-    sh.addShard( "mongo-shard-1:27017" )
-    sh.addShard( "mongo-shard-2:27017" )
-    sh.addShard( "mongo-shard-3:27017" )
-    ```
+    - Dari shell mongo yang sudah tersambung dengan MongoDB Query Router ketikkan
+        ```
+        sh.addShard( "mongo-shard-1:27017" )
+        sh.addShard( "mongo-shard-2:27017" )
+        sh.addShard( "mongo-shard-3:27017" )
+        ```
 
 4. Mengaktifkan sharding
-- Masuk ke dalam salaah satu server shard
-    ```
-    vagrant ssh mongo_shard_1
-    ```
+    - Masuk ke dalam salaah satu server shard
+        ```
+        vagrant ssh mongo_shard_1
+        ```
 
-- Koneksi ke mongoDB query router
-    ```
-    mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
-    ```
+    - Koneksi ke mongoDB query router
+        ```
+        mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
+        ```
 
-- Membuat database
-    ```sh
-    use dataHealth
-    sh.enableSharding("dataHealth")
-    db.dataHealthCollection.ensureIndex( { _id : "hashed" } )
-    sh.shardCollection( "dataHealth.dataHealthCollection", { "_id" : "hashed" } )
-    ```
+    - Membuat database
+        ```sh
+        use dataHealth
+        sh.enableSharding("dataHealth")
+        db.dataHealthCollection.ensureIndex( { _id : "hashed" } )
+        sh.shardCollection( "dataHealth.dataHealthCollection", { "_id" : "hashed" } )
+       ```
 
 
 ## Import Data
@@ -550,6 +551,7 @@ Hasilnya alam seperti berikut:
 
 ## CRUD dan Aggregasi
 1. Create
+![create](screenshoot/create.PNG)
 2. Read
 ![read](screenshoot/read.PNG)
 3. Update
@@ -557,5 +559,7 @@ Hasilnya alam seperti berikut:
 4. Delete
 ![delete](screenshoot/delete.PNG)
 
-5. 
-6. 
+5. Count Grade
+![count](screenshoot/count.PNG)
+6. Min Score
+![min](screenshoot/min.PNG)
