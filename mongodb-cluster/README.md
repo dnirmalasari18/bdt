@@ -7,15 +7,15 @@ NRP: 05111640000115
 ## Implementasi MongoDB Cluster
 ### 1. Pembagian IP dan Spesifikasinya
 Terdapat 6 server, yaitu:
-- Server config sebanyak 2, dengan spesifikasi:
+- Server config sebanyak 2 buah, dengan spesifikasi:
     - OS: `bento/ubuntu-18.04`
     - RAM: 512 MB
     - IP: `192.168.115.2` dan `192.168.115.3`
-- Server query 
+- Server query sebanyak 1 buah, dengan spesifikasi:
     - OS: `bento/ubuntu-18.04`
     - RAM: 512 MB
     - IP: `192.168.115.4`
-- Server Data/Shard sebanyak 3 buah
+- Server Data/Shard sebanyak 3 buah, dengan spesifikasi:
     - OS: `bento/ubuntu-18.04`
     - RAM: 512 MB
     - IP: `192.168.115.5`, `192.168.115.6`, dan `192.168.115.7`
@@ -156,7 +156,258 @@ Terdapat 6 server, yaitu:
     ```
 
 ### 4. Konfigurasi
+- File konfigurasi mongo-config-1 `mongodcsvr1.conf`
+    ```sh
+    # mongod.conf
 
+    # for documentation of all options, see:
+    #   http://docs.mongodb.org/manual/reference/configuration-options/
+
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongod.log
+
+    # Where and how to store data.
+    storage:
+    dbPath: /var/lib/mongodb
+    journal:
+        enabled: true
+    #  engine:
+    #  wiredTiger:
+
+    # how the process runs
+    processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+    # network interfaces
+    net:
+    port: 27019
+    bindIp: 192.168.115.2
+
+    #security:
+
+    #operationProfiling:
+
+    replication:
+    replSetName: configReplSet
+
+    sharding:
+    clusterRole: "configsvr"
+    
+    ## Enterprise-Only Options
+
+    #auditLog:
+
+    #snmp:
+    ```
+
+- File konfigurasi mongo-config-2 `mongodcsvr2.conf`
+    ```sh
+    # mongod.conf
+
+    # for documentation of all options, see:
+    #   http://docs.mongodb.org/manual/reference/configuration-options/
+
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongod.log
+
+    # Where and how to store data.
+    storage:
+    dbPath: /var/lib/mongodb
+    journal:
+        enabled: true
+    #  engine:
+    #  wiredTiger:
+
+    # how the process runs
+    processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+    # network interfaces
+    net:
+    port: 27019
+    bindIp: 192.168.115.3
+
+
+    #security:
+    #  keyFile: /opt/mongo/mongodb-keyfile
+
+    #operationProfiling:
+
+    replication:
+    replSetName: configReplSet
+
+    sharding:
+    clusterRole: "configsvr"
+    
+    ## Enterprise-Only Options
+
+    #auditLog:
+
+    #snmp:
+    ```
+
+- File konfigurasi mongo-query-router `mongos.conf`
+    ```sh
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongos.log
+
+    # network interfaces
+    net:
+    port: 27017
+    bindIp: 192.168.115.4
+
+    sharding:
+    configDB: configReplSet/mongo-config-1:27019,mongo-config-2:27019
+    ```
+
+- File konfigurasi mongo-shard-1 `mongodshardsvr1.conf`
+    ```sh
+    # mongod.conf
+
+    # for documentation of all options, see:
+    #   http://docs.mongodb.org/manual/reference/configuration-options/
+
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongod.log
+
+    # Where and how to store data.
+    storage:
+    dbPath: /var/lib/mongodb
+    journal:
+        enabled: true
+    #  engine:
+    #  wiredTiger:
+
+    # how the process runs
+    processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+    # network interfaces
+    net:
+    port: 27017
+    bindIp: 192.168.115.5
+
+
+    #security:
+
+    #operationProfiling:
+
+    #replication:
+
+    sharding:
+    clusterRole: "shardsvr"
+    
+    ## Enterprise-Only Options
+
+    #auditLog:
+
+    #snmp:
+    ```
+
+- File konfigurasi mongo-shard-2 `mongodshardsvr2.conf`
+    ```sh
+    # mongod.conf
+
+    # for documentation of all options, see:
+    #   http://docs.mongodb.org/manual/reference/configuration-options/
+
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongod.log
+
+    # Where and how to store data.
+    storage:
+    dbPath: /var/lib/mongodb
+    journal:
+        enabled: true
+    #  engine:
+    #  wiredTiger:
+
+    # how the process runs
+    processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+    # network interfaces
+    net:
+    port: 27017
+    bindIp: 192.168.115.6
+
+
+    #security:
+
+    #operationProfiling:
+
+    #replication:
+
+    sharding:
+    clusterRole: "shardsvr"
+    
+    ## Enterprise-Only Options
+
+    #auditLog:
+
+    #snmp:
+    ```
+- File Konfigurasi mongo-shard-3 `mongodshardsvr3.conf`
+    ```sh
+    # mongod.conf
+
+    # for documentation of all options, see:
+    #   http://docs.mongodb.org/manual/reference/configuration-options/
+
+    # where to write logging data.
+    systemLog:
+    destination: file
+    logAppend: true
+    path: /var/log/mongodb/mongod.log
+
+    # Where and how to store data.
+    storage:
+    dbPath: /var/lib/mongodb
+    journal:
+        enabled: true
+    #  engine:
+    #  wiredTiger:
+
+    # how the process runs
+    processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+    # network interfaces
+    net:
+    port: 27017
+    bindIp: 192.168.115.7
+
+
+    #security:
+
+    #operationProfiling:
+
+    #replication:
+
+    sharding:
+    clusterRole: "shardsvr"
+    
+    ## Enterprise-Only Options
+
+    #auditLog:
+
+    #snmp:
+    ```
 ### 5. File Tambahan
 - File `hosts`
     ```
@@ -194,5 +445,70 @@ Terdapat 6 server, yaitu:
     [Install]
     WantedBy=multi-user.target
     ```
-## Konfigurasi MongoDB Cluster
 
+## Konfigurasi MongoDB Cluster
+1. Konfigurasi Replica Set
+Masuk ke dalam salah satu server config
+```
+    vagrant ssh mongo_config_1
+```
+
+Masuk ke dalam mongo
+```
+mongo mongo-config-1:27019
+```
+
+Inisiasi replica set
+```
+    rs.initiate( { _id: "configReplSet", configsvr: true, members: [ { _id: 0, host: "mongo-config-1:27019" }, { _id: 1, host: "mongo-config-2:27019" }] } )
+```
+
+Cek hasil replika set
+```
+    rs.status()
+```
+
+2. Membuat admin
+Masuk ke dalam salah satu server config
+```
+    vagrant ssh mongo_config_1
+```
+
+Masuk ke dalam mongo
+```
+    mongo mongo-config-1:27019
+```
+
+Masuk dalam database admin
+```
+    use admin
+```
+
+Membuat user
+```
+    db.createUser({user: "mongo-admin", pwd: "password", roles:[{role: "root", db: "admin"}]})
+```
+3. Sharding
+Masuk ke dalam salah satu server shard
+```
+    vagrant ssh mongo_shard_1
+```
+
+Connect ke MongoDB Query Router
+```
+    mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
+```
+
+Aktifkan dua server shard lainnya
+```
+    vagrant ssh mongo_shard_2
+    vagrant ssh mongo_shard_3
+```
+
+Dari shell mongo yang sudah tersambung dengan MongoDB Query Router ketikkan
+```
+    sh.addShard( "mongo-shard-1:27017" )
+    sh.addShard( "mongo-shard-2:27017" )
+    sh.addShard( "mongo-shard-3:27017" )
+```
+## Import Data
