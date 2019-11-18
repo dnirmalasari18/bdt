@@ -484,31 +484,78 @@ Masuk dalam database admin
     use admin
 ```
 
-Membuat user
-```
+- Membuat user
+    ```
     db.createUser({user: "mongo-admin", pwd: "password", roles:[{role: "root", db: "admin"}]})
-```
+    ```
 3. Sharding
-Masuk ke dalam salah satu server shard
-```
+- Masuk ke dalam salah satu server shard
+    ```
     vagrant ssh mongo_shard_1
-```
+    ```
 
-Connect ke MongoDB Query Router
-```
+- Connect ke MongoDB Query Router
+    ```
     mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
-```
+    ```
 
-Aktifkan dua server shard lainnya
-```
+- Aktifkan dua server shard lainnya
+    ```
     vagrant ssh mongo_shard_2
     vagrant ssh mongo_shard_3
-```
+    ```
 
-Dari shell mongo yang sudah tersambung dengan MongoDB Query Router ketikkan
-```
+- Dari shell mongo yang sudah tersambung dengan MongoDB Query Router ketikkan
+    ```
     sh.addShard( "mongo-shard-1:27017" )
     sh.addShard( "mongo-shard-2:27017" )
     sh.addShard( "mongo-shard-3:27017" )
-```
+    ```
+
+4. Mengaktifkan sharding
+- Masuk ke dalam salaah satu server shard
+    ```
+    vagrant ssh mongo_shard_1
+    ```
+
+- Koneksi ke mongoDB query router
+    ```
+    mongo mongo-query-router:27017 -u mongo-admin -p --authenticationDatabase admin
+    ```
+
+- Membuat database
+    ```sh
+    use dataHealth
+    sh.enableSharding("dataHealth")
+    db.dataHealthCollection.ensureIndex( { _id : "hashed" } )
+    sh.shardCollection( "dataHealth.dataHealthCollection", { "_id" : "hashed" } )
+    ```
+
+
 ## Import Data
+1. Masuk ke dalam server query router
+    ```
+    vagrant ssh mongo_query_router
+    ```
+2. Import data dengan mengetikkan
+    ```
+    mongoimport -h 192.168.115.4:27017 -u mongo-admin -d dataHealth -c dataHealthCollection --type CSV --file /vagrant/dataset.csv --headerline --authenticationDatabase admin
+    ```
+3. Melihat hasil import data
+    ```
+    db.dataHealthCollection.getShardDistribution()
+    ```
+
+Hasilnya alam seperti berikut:
+
+## CRUD dan Aggregasi
+1. Create
+2. Read
+![read](screenshoot/read.PNG)
+3. Update
+![update](screenshoot/update.PNG)
+4. Delete
+![delete](screenshoot/delete.PNG)
+
+5. 
+6. 
