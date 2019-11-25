@@ -290,8 +290,12 @@ NRP: 05111640000115
         sudo chown redis:redis /etc/redis
     ```
 
+Mengecek hasil clustering:
+![cluster](img/redis-cluster.PNG)
+
 ## Instalasi WordPress
 1. Ketik `192.168.16.115/index.php` dan `192.168.16.116/index.php` pada URL browser lalu ikuti langkah-langkah yang ada sesuai keinginan
+![wp](img/wp.png)
 2. Tambahan untuk `wordpress1`
     1. Login sesuai dengan username yang sudah dibuat sebelumnya
     2. Masuk ke dalam `Plugin` pada dashboard, lalu masuk ke `Plugin Baru`.
@@ -314,9 +318,23 @@ NRP: 05111640000115
 
 
 ## Pengujian Menggunakan JMeter
-### - 50 Koneksi
+1. 50 Koneksi
+![50](img/jmeter-50.PNG)
 
-### - 215 Koneksi
-### - 315 Koneksi
+2. 215 Koneksi
+![215](img/jmeter-215.PNG)
+
+3. 315 Koneksi
+![315](img/jmeter-315.PNG)
 
 ## Simulasi Fail Over
+1. Mematikan server master `redis1`:
+    ```
+    sudo systemctl stop redis
+    sudo systemctl stop redisentinel
+    ```
+2. Masuk ke `redis2` dan `redis3` lalu mengecek replikasi dengan mengetik `info replication`
+    ![redis2](img/redis2-failover.PNG)
+    ![redis3](img/redis3-failover.PNG)
+
+    Dapat dilihat dari hasil screenshoot bahwa master telah berpindah pada server `redis2`
