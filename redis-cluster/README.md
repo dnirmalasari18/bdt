@@ -287,10 +287,10 @@ NRP: 05111640000115
         ```
 5. Membuka `redis1`, `redis2`, dan `redis3` melalui CLI lalu menjalankan 
     ```
-        sudo chown redis:redis /etc/redis
+    sudo chown redis:redis /etc/redis
     ```
 
-Mengecek hasil clustering:
+Mengecek hasil clustering:<br>
 ![cluster](img/redis-cluster.PNG)
 
 ## Instalasi WordPress
