@@ -301,17 +301,17 @@ Mengecek hasil clustering:<br>
     2. Masuk ke dalam `Plugin` pada dashboard, lalu masuk ke `Plugin Baru`.
     3. Cari `Redis Object Cache`
     4. Tambahkan pada `/var/www/html/wp-config.php` pada server `wordpress1`:
-    ```
-    define('FS_METHOD', 'direct');
-    define('WP_REDIS_SENTINEL', 'redis-cluster');
-    define('WP_REDIS_SERVERS', ['tcp://192.168.16.117:26379', 'tcp://192.168.16.118:26379', 'tcp://192.168.16.119:26379']);
-    ```
+        ```php
+        define('FS_METHOD', 'direct');
+        define('WP_REDIS_SENTINEL', 'redis-cluster');
+        define('WP_REDIS_SERVERS', ['tcp://192.168.16.117:26379', 'tcp://192.168.16.118:26379', 'tcp://192.168.16.119:26379']);
+        ```
     5. Pada `/var/www/html/wp-content/plugins/redis-cache/includes/predis/src/Command/ServerInfo.php` pada server `wordpress1` Ubah:
-    ```php
-    public function getId(){
-        return 'info';
-    }
-    ```
+        ```php
+        public function getId(){
+            return 'info';
+        }
+        ```
     6. Aktifkan plugin `Redis Cache Object`
     <br>
     Pada bagian `Diagnostics`, akan seperti berikut.
