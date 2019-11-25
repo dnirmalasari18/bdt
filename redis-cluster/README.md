@@ -315,7 +315,7 @@ Mengecek hasil clustering:<br>
     6. Aktifkan plugin `Redis Cache Object`
     <br>
     Pada bagian `Diagnostics`, akan seperti berikut.
-
+    ![diagnostic](img/redis-cache-wp1.png)
 
 ## Pengujian Menggunakan JMeter
 1. 50 Koneksi
@@ -337,4 +337,4 @@ Mengecek hasil clustering:<br>
     ![redis2](img/redis2-failover.PNG)
     ![redis3](img/redis3-failover.PNG)
 
-    Dapat dilihat dari hasil screenshoot bahwa master telah berpindah pada server `redis2`
+    Dari hasil screenshoot master telah berpindah pada server `redis2`
