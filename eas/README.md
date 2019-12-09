@@ -63,6 +63,9 @@ Aplikasi yang digunakan disini adalah aplikasi lpencerdas yang dibuat Lab Pemrog
 ### Update
 ### Delete
 ## Uji Performa Aplikasi dan Basis Data
+### JMeter
+* 
+### Sysbench
 ### Aplikasi
 ### Basis Data
 ### Uji Fail Over
