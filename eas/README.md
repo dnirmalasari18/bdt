@@ -179,7 +179,7 @@ Aplikasi yang digunakan disini adalah aplikasi lpencerdas yang dibuat Lab Pemrog
 ### Create
 ![create](img/crud-create.PNG)
 ### Read
-![read](img/crud-read.PNG)
+![read](img/crud-read.png)
 ### Update
 ![update](img/crud-update.PNG)
 ### Delete
@@ -217,11 +217,11 @@ Aplikasi yang digunakan disini adalah aplikasi lpencerdas yang dibuat Lab Pemrog
     ```
 
 * Hasil Uji Coba
-    1. Dengan 3 PD
+    1. Dengan 3 PD<br>
         ![3pd](img/sysbench-3pd.PNG)
-    2. Dengan 2 PD
+    2. Dengan 2 PD<br>
         ![2pd](img/sysbench-2pd.PNG)
-    3. Dengan 1 PD
+    3. Dengan 1 PD<br>
         ![1pd](img/sysbench-1pd.PNG)
 
 ### Uji Fail Over
