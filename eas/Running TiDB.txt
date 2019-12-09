@@ -14,12 +14,6 @@ node2
                 --peer-urls="http://192.168.16.116:2380" \
                 --initial-cluster="pd1=http://192.168.16.115:2380, pd2=http://192.168.16.116:2380, pd3=http://192.168.16.117:2380" \
                 --log-file=pd.log &
-./bin/pd-server --name=pd3 \
-                --data-dir=pd \
-                --client-urls="http://192.168.16.117:2379" \
-                --peer-urls="http://192.168.16.117:2380" \
-                --initial-cluster="pd1=http://192.168.16.115:2380,pd2=http://192.168.16.116:2380,pd3=http://192.168.16.117:2380" \
-                --log-file=pd.log &
 node3                
 ./bin/pd-server --name=pd3 \
                 --data-dir=pd \
