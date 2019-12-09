@@ -1,0 +1,60 @@
+Run on PD Server
+node1
+./bin/pd-server --name=pd1 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.115:2379" \
+                --peer-urls="http://192.168.16.115:2380" \
+                --initial-cluster="pd1=http://192.168.16.115:2380, pd2=http://192.168.16.116:2380, pd3=http://192.168.16.117:2380" \
+                --log-file=pd.log &
+
+node2                
+./bin/pd-server --name=pd2 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.116:2379" \
+                --peer-urls="http://192.168.16.116:2380" \
+                --initial-cluster="pd1=http://192.168.16.115:2380, pd2=http://192.168.16.116:2380, pd3=http://192.168.16.117:2380" \
+                --log-file=pd.log &
+./bin/pd-server --name=pd3 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.117:2379" \
+                --peer-urls="http://192.168.16.117:2380" \
+                --initial-cluster="pd1=http://192.168.16.115:2380,pd2=http://192.168.16.116:2380,pd3=http://192.168.16.117:2380" \
+                --log-file=pd.log &
+node3                
+./bin/pd-server --name=pd3 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.117:2379" \
+                --peer-urls="http://192.168.16.117:2380" \
+                --initial-cluster="pd1=http://192.168.16.115:2380, pd2=http://192.168.16.116:2380, pd3=http://192.168.16.117:2380" \
+                --log-file=pd.log &
+======================================================
+
+Run on Tikv Server
+node4
+./bin/tikv-server --pd="192.168.16.115:2379,192.168.16.116:2379,192.168.16.117:2379" \
+                  --addr="192.168.16.118:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+./bin/tikv-server --pd="192.168.16.115:2379,192.168.16.116:2379,192.168.16.117:2379" \
+                --addr="192.168.16.118:20160" \
+                --data-dir=tikv \
+                --log-file=tikv.log &
+
+node5
+./bin/tikv-server --pd="192.168.16.115:2379,192.168.16.116:2379,192.168.16.117:2379" \
+                  --addr="192.168.16.119:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+
+node6
+./bin/tikv-server --pd="192.168.16.115:2379,192.168.16.116:2379,192.168.16.117:2379" \
+                  --addr="192.168.16.120:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+
+======================================================
+
+Run on TiDB Server
+./bin/tidb-server --store=tikv \
+                  --path="192.168.16.115:2379" \
+                  --log-file=tidb.log &
