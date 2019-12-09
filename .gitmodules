@@ -1,0 +1,3 @@
+[submodule "eas/eas/lpencerdas"]
+	path = eas/eas/lpencerdas
+	url = https://github.com/lpif/lpencerdas
