@@ -5,6 +5,12 @@ NRP: 05111640000115
 ## Content
 ## Implementasi Arsitektur
 ### Desain Arsitektur
+![arsitektur](img/arsitektur.png)
+
+### Spesifikasi
+node1 hingga node6 semuanya memiliki spesifikasi sebagai berikut:
+- OS : geerlingguy/centOS7
+- RAM : 512 MB
 ### Vagrant
 1. Membuat file vagrant dengan mengetikkan
     ```
